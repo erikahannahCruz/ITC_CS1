@@ -1,0 +1,86 @@
+ <!DOCTYPE html>
+<html>
+<body>
+
+<h1>Conversion of Values</h1>
+
+<!--INPUT NUMBER-->
+<label for="n1">Type Value: </label> <br>
+<input id="n1" name="n1" type="number"><br><br>
+
+<!--Buttons-->
+<div id="radioGroup">
+  <input type="radio" id="f2c" name="conversion" value="1">
+  <label for="f2c">Fahrenheit to Celsius</label><br>
+  <input type="radio" id="c2f" name="conversion" value="2">
+  <label for="c2f">Celsius to Fahrenheit</label><br>
+  <input type="radio" id="f2m" name="conversion" value="3">
+  <label for="f2m">Feet to Meters</label><br>
+  <input type="radio" id="m2f" name="conversion" value="4">
+  <label for="m2f">Meters to Feet</label><br><br>
+</div>
+
+<button type="button" onclick="main()">Submit</button><br><br>
+
+<!-- OUTPUT -->
+<label for="sum" id="sumlabel">The result is:</label>  <br>
+<input id="sum" name="sum" type="number" readonly></input></p><br>
+<br>
+
+<a href="index.html">Back to Homepage</a>
+
+<script>
+
+var var1, result ; 
+
+function main() {
+// Get the values from the textboxes
+
+var1 = 0 ;
+result = 0 ;
+var1 = document.getElementById("n1").value*1;
+
+// Evaluates which conversion to do based on selected radio button
+if (document.getElementById('f2c').checked) {
+    celsius();
+}
+
+else if (document.getElementById('c2f').checked) {
+    fahrenheit();
+}
+
+else if (document.getElementById('f2m').checked) {
+    meters();
+}
+
+else if (document.getElementById('m2f').checked) {
+    feet();
+}
+
+else {}
+
+//Display Output
+document.getElementById("sum").value = result;
+
+}
+
+function celsius() {
+    result = ((var1-32) * 5) / 9 ;
+}
+
+function fahrenheit() {
+    result = ((var1 * 9) / 5) + 32 ;
+}
+
+function meters() {
+    result = var1 / 3.2808399 ;
+}
+
+function feet() {
+    result = var1 * 3.2808399 ;
+}
+
+</script>
+
+</body>
+</html>
