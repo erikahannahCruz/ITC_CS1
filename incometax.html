@@ -1,0 +1,96 @@
+ <!DOCTYPE html>
+<html>
+<body>
+
+<h1>Income Tax Calculator</h1>
+
+<!--INPUT-->
+<label for="n1">Type Value: </label> <br>
+<input id="n1" name="n1" type="number"><br><br>
+
+<button type="button" onclick="main()">Submit</button><br><br>
+
+<!-- OUTPUT -->
+<label for="taxed" id="txtExcess">The excess (subtracted by Php250,000) of your income will be displayed here.</label>  <br>
+<label for="taxed" id="txtBasicTax">The basic tax will be displayed here.</label>  <br>
+<label for="taxed" id="txtRate">The rate will be displayed here.</label>  <br><br>
+<label for="taxed" id="txtTaxed">Your total Income Tax is:</label>  <br>
+<input id="taxed" name="tax" type="number" readonly></input></p><br><br>
+
+<a href="index.html">Back to Homepage</a>
+
+
+<script>
+
+    var income , minimum , excess , basic, rate, rateAmount, total ; 
+
+    function main() {
+        income = 0 ; 
+        excess = 0 ; 
+        rateAmount = 0 ; 
+        total = 0 ; 
+
+        // Collect the value inputted
+        income = document.getElementById("n1").value*1;
+
+        if (income > 250000 && income <= 400000) {
+            minimum = 250000;
+            basic = 0 ; 
+            rate = 0.2 ; 
+            calculate();
+            }
+        else if (income > 400000 && income <= 800000) {
+            minimum = 400000;
+            basic = 30000 ; 
+            rate = 0.25 ; 
+            calculate();
+            }
+        else if (income > 800000 && income <= 2000000) {
+            minimum = 800000;
+            basic = 130000 ; 
+            rate = 0.3 ; 
+            calculate();
+            }
+        else if (income > 2000000 && income <= 8000000) {
+            minimum = 2000000;
+            basic = 490000 ; 
+            rate = 0.32 ; 
+            calculate();
+            }
+        else if (income > 8000000) {
+            minimum = 8000000;
+            basic = 2410000 ; 
+            rate = 0.35 ; 
+            calculate();
+            }
+        else {
+            minimum = 0;
+            basic = 0 ; 
+            rate = 0 ; 
+            calculate();
+        }
+
+        //Output Values
+        document.getElementById("txtExcess").innerHTML = 'The excess (from Php' + minimum + ') is: Php' + excess + '.' ;
+        document.getElementById("txtBasicTax").innerHTML = 'The basic tax is Php' + basic + '.' ;
+        document.getElementById("txtRate").innerHTML = 'The rate is ' + rate + '. (Php' + rateAmount + ')' ;
+
+        document.getElementById("taxed").value = total ; 
+        
+    }
+
+
+    function calculate() {
+        // Calculating rate
+        excess = income - minimum ; 
+        rateAmount = excess * rate ; 
+
+        // Computing total 
+        total = basic + rateAmount ; 
+    }
+
+    </script>
+
+
+</body>
+</html>
