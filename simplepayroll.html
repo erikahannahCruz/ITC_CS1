@@ -1,0 +1,224 @@
+<!DOCTYPE html> 
+<html> 
+
+<head>
+
+    <style>
+        #tablePayroll {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        #tablePayroll td, #cart th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        #tablePayroll tr:nth-child(even){background-color: #f2f2f2;}
+        #tablePayroll tr:nth-child(odd){background-color: #bfddf1;}
+             
+        
+        #tablePayroll th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          padding-left: 12px;
+          padding-right: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+    </style>
+
+</head>
+
+<body onload="recordInitialization()">
+
+    <h1><u>Simple Payroll</u></h1>
+
+    <!--Add worker-->
+    <label for="employee">Employee Name:</label> 
+    <input id="employee" name="txtName" type="text"></input><br><br>
+    
+    <label for="days">Days Worked</label>
+    <input id="days" name="txtDaysWorked" type="number" oninput="calculateGross()"></input><br><br>
+    
+    <label for="rate">Daily Rate:</label>
+    <input id="rate" name="txtDailyRate" type="number" oninput="calculateGross()"></input><br><br>
+
+    <label for="rate">Gross Pay:</label>
+    <input id="gross" name="txtGrossPay" type="number" readonly></input><br><br>
+    
+    <label for="deduction">Deduction Amount:</label>
+    <input id="deduction" name="txtDeduction" type="number" oninput="calculateNet()"></input><br><br>
+
+    <label for="rate">Net Pay:</label>
+    <input id="netPay" name="txtNetPay" type="number" readonly></input><br><br>
+
+    <button id="btnSubmit" onclick="addRecord()">Add Employee</button><br><br>
+
+    <!--Records Information & Table-->
+    <h2><u>Record Information</u></h2>
+    <label for="txtNumber">Record Count:</label>
+    <input id="txtNumber" name="txtNumber" type="number" readonly></input><br><br>
+
+    <p id="tablePayroll"></p>
+
+    <!--Delete a Record-->
+    <h2><u>Record Deletion</u></h2>
+    <label for="deleteRecord">Input Record Number:</label>
+    <input id="deleteRecord" name="txtDelete" type="number"></input><br>
+
+    <button id="btnDelete" onclick="deleteRecord()">Remove Employee</button><br>
+    <button id="btnClear" onclick="clearRecords()">Clear Records</button><br>
+
+    <a href="index.html">Back to Homepage</a>
+
+    <script>
+
+        var records = [] ;
+
+      //Initialization
+      function recordInitialization() {
+        records = [] ;
+        document.getElementById("txtNumber").value = records.length ; 
+        document.getElementById("tablePayroll").innerHTML = "" ;
+      
+      }
+
+        // Adding a Record to the table
+        function addRecord() {
+          var recordItem = {
+            name : "" ,
+            daysWorked : 0 , 
+            dailyRate :  0,
+            grossPay :  0 ,
+           deductAmount : 0 ,
+           netPay : 0
+          } ;
+
+          recordItem.name = document.getElementById("employee").value ; 
+          recordItem.daysWorked = document.getElementById("days").value ;
+          recordItem.dailyRate = document.getElementById("rate").value ;
+          recordItem.grossPay = document.getElementById("gross").value ; 
+          recordItem.deductAmount = document.getElementById("deduction").
+          value ;
+          recordItem.netPay = document.getElementById("netPay").value ;
+        
+          console.log(recordItem.name) ; 
+          console.log(recordItem.daysWorked) ;
+          console.log(recordItem.dailyRate) ;
+          console.log(recordItem.grossPay) ;
+          console.log(recordItem.deductAmount) ;
+          console.log(recordItem.netPay) ;
+
+          records.push(recordItem);
+          
+          console.log(records.length);
+          document.getElementById("txtNumber").value = records.length ;
+
+          displayTable() ; 
+
+        }
+
+        // Delete a Record
+        function deleteRecord() {
+            var delRecord , toDelete ; 
+
+            delRecord = document.getElementById("deleteRecord").value ; 
+            toDelete = confirm("Delete record " +delRecord+ "?" ) ;
+
+            if (toDelete) {
+              records.splice(delRecord - 1 , 1) ;
+              document.getElementById("txtNumber").value = records.length ;
+              displayTable() ;
+            }
+        }
+
+        //Clear whole Table
+        function clearRecords() {
+            var toClear ; 
+
+            toClear = confirm("Are you sure you want to clear your records?") ; 
+             
+            if (toClear) {
+                recordInitialization() ; 
+            }
+
+        }
+
+        // Calculate Gross (Days * Daily Rate)
+        function calculateGross() {
+            var result , rate , day;
+
+            rate = document.getElementById("rate").value ;
+            day = document.getElementById("days").value ;
+
+            result = Math.round((rate * day)*100)/100 ; 
+
+            console.log(result) ;
+            document.getElementById("gross").value = result ;  
+        }
+        
+        // Calculate the Net Pay (Gross - Deduction)
+        function calculateNet() {
+            var result , gross , deduct;
+
+            gross = document.getElementById("gross").value ; 
+            deduct = document.getElementById("deduction").value ; 
+
+            result = Math.round((gross - deduct) * 100)/100 ;
+
+            console.log(result) ;
+            document.getElementById("netPay").value = result ;
+
+        }
+
+        // Manipulating the Table
+        function displayTable() {
+            var i , l , recordText , totalTable , ln ;
+
+            var theader, tbody ;
+
+            // Table heading
+            theader ="<thead>";
+            theader+="<tr>";
+                theader+="<th>No.</th>";
+                theader+='<th style="text-align:center">Employee Name</th>';
+                theader+='<th style="text-align:center">Days Worked</th>';
+                theader+='<th style="text-align:center">Daily Rate</th>';
+                theader+='<th style="text-align:center">Gross Pay</th>';
+                theader+='<th style="text-align:center">Deductions</th>';
+                theader+='<th style="text-align:center">Net Pay</th>';
+            theader+="</tr>";
+            theader+="</thead>";
+            
+
+            // Table Body
+
+            l = records.length ; 
+
+            for (i = 0 , totalTable = 0 , recordText = "" , tbody = '' ; i < l ; i++) {
+                ln = i + 1;
+                tbody += "<tr>"
+                    + '<td>' +ln+ '</td>'
+                    + '<td>' +records[i].name+ '</td>'
+                    + '<td>' +records[i].daysWorked+ '</td>'
+                    + '<td>' +"Php "+records[i].dailyRate+ '</td>'
+                    + '<td>' +"Php "+records[i].grossPay+ '</td>'
+                    + '<td>' +"Php "+records[i].deductAmount+ '</td>'
+                    + '<td>' +"Php "+records[i].netPay+ '</td>'
+                    + "</tr>" ;
+
+            }
+
+            // Generate Table
+            console.log(theader + tbody) ;
+            document.getElementById("tablePayroll").innerHTML = "<table>" + theader + tbody + "</table>" ; 
+        }
+
+        </script>
+
+</body>
+
+</html>
