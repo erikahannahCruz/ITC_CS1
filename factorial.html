@@ -1,0 +1,103 @@
+ <!DOCTYPE html>
+<html>
+
+<body>
+
+    <!--Input-->
+    <h1>Factorial, Sum, and Average of an Integer</h1>
+    <label for="n1">Input Number:</label>
+    <input type="number" id="n1" name="txtInput"></input> <br><br>
+    <button id="submit" onclick="main()">Submit</button> <br><br>
+
+    <!--Output-->
+    <label for="txtFactorial">Factorial is:</label>
+    <input id="txtFactorial" name="txtFactorial" readonly></input> <br>
+    <label for="txtSum">Sum is:</label>
+    <input id="txtSum" name="txtSum" readonly></input> <br>
+    <label for="txtAverage">Average is:</label>
+    <input id="txtAverage" name="txtAverage" readonly></input> <br><br>
+
+
+    <!--If an Integer <= 0 is inputted-->
+    <p hidden id="txtInvalid">Invalid input! Only type a non-negative non-zero integer.</p>
+
+    <a href="index.html">Back to Homepage</a>
+
+    <script>
+        var var1 = 0 ; 
+        var varFactorial = 1 ;
+        var varSum = 1 ;
+        var varAverage = 1 ;
+        
+        //Main Function
+        function main() {
+
+        var1 = 0 ; 
+        varFactorial = 1 ;
+        varSum = 1 ;
+        varAverage = 1 ;
+
+        var1 = document.getElementById("n1").value*1 ;
+
+        if (var1 > 0) {
+            document.getElementById('txtInvalid').hidden = true ;
+            factorial() ;
+            sum() ;
+            average() ;
+        }
+        else  {
+        document.getElementById('txtInvalid').hidden = false ;  
+        }
+
+        document.getElementById("txtFactorial").value = varFactorial ;
+        document.getElementById("txtSum").value = varSum ;
+        document.getElementById("txtAverage").value = varAverage ;
+
+        }
+
+        // Computational Functions
+        function factorial() {
+            var index = 0 , temp ;
+            
+            //Factorial using while loop
+            while (index < var1) {
+                temp = var1 - index ; 
+                varFactorial = varFactorial * temp ; 
+
+                index++ ;
+
+            }
+
+        }
+
+        function sum () {
+            var index = 0 ;
+
+            //Sum using do-while loop
+            do {
+                temp = var1 - index ; 
+                varSum = varSum + temp ;
+                index++ ;
+            }
+            while (index <= var1+1);
+
+        }
+
+        function average() {
+            var temp, sum = 0; 
+        
+            //Average using for loop
+            for (let index = 0 ; index < var1 ; index++) {
+                temp = var1 - index ; 
+                sum = sum + temp ;
+            }
+
+            varAverage = sum / var1 ; 
+        }
+
+
+    </script>
+
+    
+    </body>
+    </html>
